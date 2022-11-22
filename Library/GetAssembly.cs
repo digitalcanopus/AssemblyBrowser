@@ -1,15 +1,17 @@
-﻿namespace Library
+﻿using System.Reflection;
+
+namespace Library
 {
     public class GetAssembly
     {
-        private readonly System.Reflection.Assembly? _assembly;
+        private readonly Assembly? _assembly;
 
 
         public GetAssembly(string filename)
         {
             try
             {
-                _assembly = System.Reflection.Assembly.LoadFrom(filename);
+                _assembly = Assembly.LoadFrom(filename);
             }
             catch
             {
@@ -33,108 +35,108 @@
         private List<InfNamespace> GetNamespaceInfo()
         {
             IEnumerable<string?> namespaces = _assembly.GetTypes().Select(type => type.Namespace).Distinct();
-            List<InfNamespace> namespaceInfos = new List<InfNamespace>();
+            List<InfNamespace> infNamespaces = new List<InfNamespace>();
 
             foreach (string namespaceName in namespaces)
             {
-                InfNamespace namespaceInfo = new InfNamespace();
-                namespaceInfo.NamespaceName = namespaceName;
-                namespaceInfo.Types = GetTypeInfo(namespaceName);
-                namespaceInfos.Add(namespaceInfo);
+                InfNamespace infNamespace = new InfNamespace();
+                infNamespace.NamespaceName = namespaceName;
+                infNamespace.Types = GetTypeInfo(namespaceName);
+                infNamespaces.Add(infNamespace);
             }
 
-            return namespaceInfos;
+            return infNamespaces;
         }
 
         private List<InfType> GetTypeInfo(string namespaceName)
         {
             IEnumerable<Type> types = _assembly.GetTypes().Where(type => type.Namespace == namespaceName);
-            List<InfType> typeInfos = new List<InfType>();
+            List<InfType> infTypes = new List<InfType>();
 
             foreach (Type type in types)
             {
-                InfType typeInfo = new InfType();
-                typeInfo.TypeName = type.Name;
+                InfType infType = new InfType();
+                infType.TypeName = type.Name;
                 if (type.IsClass)
-                    typeInfo.Type = "Class";
+                    infType.Type = "Class";
                 else if (type.IsInterface)
-                    typeInfo.Type = "Interface";
+                    infType.Type = "Interface";
                 else if (type.IsEnum)
-                    typeInfo.Type = "Enam";
+                    infType.Type = "Enum";
                 else
-                    typeInfo.Type = "Type";
-                typeInfo.Fields = GetFieldInfo(type);
-                typeInfo.Properties = GetPropertyInfo(type);
-                typeInfo.Methods = GetMethodInfo(type);
-                typeInfos.Add(typeInfo);
+                    infType.Type = "Type";
+                infType.Fields = GetFieldInfo(type);
+                infType.Properties = GetPropertyInfo(type);
+                infType.Methods = GetMethodInfo(type);
+                infTypes.Add(infType);
             }
 
-            return typeInfos;
+            return infTypes;
         }
 
         private List<InfField> GetFieldInfo(Type classType)
         {
             var fields = classType.GetFields();
-            List<InfField> fieldInfos = new List<InfField>();
+            List<InfField> infFields = new List<InfField>();
 
             foreach (var field in fields)
             {
-                InfField fieldInfo = new InfField();
-                fieldInfo.FieldName = field.Name;
-                fieldInfo.FieldType = field.FieldType.Name;
-                fieldInfos.Add(fieldInfo);
+                InfField infField = new InfField();
+                infField.FieldName = field.Name;
+                infField.FieldType = field.FieldType.Name;
+                infFields.Add(infField);
             }
 
-            return fieldInfos;
+            return infFields;
         }
 
         private List<InfProperty> GetPropertyInfo(Type classType)
         {
             var properties = classType.GetProperties();
-            List<InfProperty> propertyInfos = new List<InfProperty>();
+            List<InfProperty> infProperties = new List<InfProperty>();
 
             foreach (var property in properties)
             {
-                InfProperty propertyInfo = new InfProperty();
-                propertyInfo.PropertyName = property.Name;
-                propertyInfo.PropertyType = property.PropertyType.Name;
-                propertyInfos.Add(propertyInfo);
+                InfProperty infProperty = new InfProperty();
+                infProperty.PropertyName = property.Name;
+                infProperty.PropertyType = property.PropertyType.Name;
+                infProperties.Add(infProperty);
             }
 
-            return propertyInfos;
+            return infProperties;
         }
 
         private List<InfMethod> GetMethodInfo(Type classType)
         {
             var methods = classType.GetMethods();
-            List<InfMethod> methodInfos = new List<InfMethod>();
+            List<InfMethod> infMethods = new List<InfMethod>();
 
             foreach (var method in methods)
             {
-                InfMethod methodInfo = new InfMethod();
-                methodInfo.MethodName = method.Name;
-                methodInfo.ReturnType = method.ReturnType.Name;
-                methodInfo.Parameters = GetParametersInfo(method);
-                methodInfos.Add(methodInfo);
+                InfMethod infMethod = new InfMethod();
+                infMethod.MethodName = method.Name;
+                infMethod.ReturnType = method.ReturnType.Name;
+                infMethod.Parameters = GetParametersInfo(method);
+                infMethods.Add(infMethod);
             }
 
-            return methodInfos;
+            return infMethods;
         }
 
         private List<InfField> GetParametersInfo(System.Reflection.MethodInfo method)
         {
-            List<InfField> parameterInfos = new List<InfField>();
-            var parametrs = method.GetParameters();
+            List<InfField> infParameters = new List<InfField>();
+            var parameters = method.GetParameters();
 
-            foreach (var param in parametrs)
+            foreach (var parameter in parameters)
             {
-                InfField parametrInfo = new InfField();
-                parametrInfo.FieldName = param.Name;
-                parametrInfo.FieldType = param.ParameterType.Name;
-                parameterInfos.Add(parametrInfo);
+                InfField infParameter = new InfField();
+                infParameter.FieldName = parameter.Name;
+                infParameter.FieldType = parameter.ParameterType.Name;
+                infParameters.Add(infParameter);
             }
 
-            return parameterInfos;
+            return infParameters;
         }
     }
 }
