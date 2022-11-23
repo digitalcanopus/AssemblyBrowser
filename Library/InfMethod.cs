@@ -1,6 +1,6 @@
 ﻿namespace Library
 {
-    internal class InfMethod
+    public class InfMethod
     {
         public string MethodName { get; set; }
         public string ReturnType { get; set; }
