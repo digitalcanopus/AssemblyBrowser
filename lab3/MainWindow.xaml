@@ -4,9 +4,19 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:lab3"
+        xmlns:viewModel="clr-namespace:lab3" d:DataContext="{d:DesignInstance Type=local:ViewModel}"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Show assembly data" Height="450" Width="800">
     <Grid>
-
+        <Label Content="Assembly:" HorizontalAlignment="Left" Margin="370,10,0,0" VerticalAlignment="Top"/>
+        <TextBlock Text="{Binding Path=AssemblyPath}" HorizontalAlignment="Left" Margin="433,15,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="no assembly"/></TextBlock>
+        <Button Command="{Binding OpenFileDialog}" Content="Find assembly" HorizontalAlignment="Left" Margin="360,40,0,0" VerticalAlignment="Top"/>
+        <TreeView  Margin="0,70,0,0" RenderTransformOrigin="0.5,0.5" ItemsSource="{Binding AssemblyTree}">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Nodes}">
+                    <TextBlock Text="{Binding Name}"/>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
     </Grid>
 </Window>
