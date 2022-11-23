@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace lab3
 {
-    public class Node
+    public class VMNode
     {
         public string Name { get; set; }
-        public List<Node> Nodes { get; set; } = new List<Node>();
+        public List<VMNode> Nodes { get; set; } = new List<VMNode>();
     }
 }
