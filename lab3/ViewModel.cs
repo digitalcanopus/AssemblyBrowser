@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
 
 namespace lab3
 {
@@ -27,7 +27,7 @@ namespace lab3
 
         private void OpenAssembly()
         {
-            var dialog = new Microsoft.Win32.OpenFileDialog();
+            var dialog = new OpenFileDialog();
             dialog.FileName = "Assembly";
             dialog.DefaultExt = ".dll";
             dialog.Filter = "Dynamic link library (.dll)|*.dll";
@@ -37,7 +37,29 @@ namespace lab3
 
             if (result == true)
             {
-                //smth
+                AssemblyPath = dialog.FileName;
+                OnPropertyChanged(nameof(AssemblyPath));
+            }
+        }
+
+        private VMOpenFileCommand? _openFileDial;
+        public VMOpenFileCommand OpenFileDialog
+        {
+            get
+            {
+                return _openFileDial ??
+                  (_openFileDial = new VMOpenFileCommand(o => OpenAssembly()));
+            }
+        }
+
+        public string AssemblyPath
+        {
+            get => _assemblyPath;
+            set
+            {
+                _assemblyPath = value;
+                AssemblyTree = VMToTree.Convert(Model.GetTree(AssemblyPath));
+                OnPropertyChanged(nameof(AssemblyTree));
             }
         }
     }

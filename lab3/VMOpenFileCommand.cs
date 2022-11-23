@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace lab3
@@ -26,6 +22,12 @@ namespace lab3
         public void Execute(object? parameter)
         {
             execute(parameter);
+        }
+
+        public VMOpenFileCommand(Action<object> execute, Func<object, bool>? canExecute = null)
+        {
+            this.execute = execute;
+            this.canExecute = canExecute;
         }
     }
 }
