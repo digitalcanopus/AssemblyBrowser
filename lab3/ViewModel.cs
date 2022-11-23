@@ -27,7 +27,7 @@ namespace lab3
 
         private void OpenAssembly()
         {
-            var dialog = new OpenFileDialog();
+            var dialog = new Microsoft.Win32.OpenFileDialog();
             dialog.FileName = "Assembly";
             dialog.DefaultExt = ".dll";
             dialog.Filter = "Dynamic link library (.dll)|*.dll";
