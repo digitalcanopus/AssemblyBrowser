@@ -6,11 +6,14 @@
         xmlns:local="clr-namespace:lab3"
         xmlns:viewModel="clr-namespace:lab3" d:DataContext="{d:DesignInstance Type=local:ViewModel}"
         mc:Ignorable="d"
-        Title="Show assembly data" Height="450" Width="800">
+        Title="Show assembly data" Height="450" Width="800" Background="Lavender">
+    <Window.DataContext>
+        <viewModel:ViewModel/>
+    </Window.DataContext>
     <Grid>
-        <Label Content="Assembly:" HorizontalAlignment="Left" Margin="370,10,0,0" VerticalAlignment="Top"/>
-        <TextBlock Text="{Binding Path=AssemblyPath}" HorizontalAlignment="Left" Margin="433,15,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="no assembly"/></TextBlock>
-        <Button Command="{Binding OpenFileDialog}" Content="Find assembly" HorizontalAlignment="Left" Margin="360,40,0,0" VerticalAlignment="Top"/>
+        <Label Content="Assembly:" HorizontalAlignment="Left" Margin="10,39,0,0" VerticalAlignment="Top" Background="HotPink"/>
+        <TextBlock Text="{Binding Path=AssemblyPath}" HorizontalAlignment="Left" Margin="73,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Background="HotPink"><Run Text="no assembly"/></TextBlock>
+        <Button Command="{Binding OpenFileDialog}" Content="Find assembly" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Background="Yellow" Height="31" Width="88"/>
         <TreeView  Margin="0,70,0,0" RenderTransformOrigin="0.5,0.5" ItemsSource="{Binding AssemblyTree}">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Nodes}">
